@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Movie Recommendation System - Category</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- Bootstrap 4 CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    crossorigin="anonymous">
+
+  <style>
+    /* Enforce 5 cards per row with flexbox */
+    .movie-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: start;
+      gap: 1rem;
+    }
+    .movie-content .card {
+      flex: 0 0 19%; /* About 5 cards per row with margin */
+      cursor: pointer;
+      position: relative;
+    }
+    .movie-content .card img.card-img-top {
+      height: 360px;
+      width: 240px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    .fig {
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      right: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 6px;
+      transition: opacity 0.3s ease;
+    }
+    .imghvr:hover .fig {
+      opacity: 1;
+    }
+    .card-body {
+      text-align: center;
+    }
+  </style>
+</head>
+<body style="font-family: 'Noto Sans JP', sans-serif;">
+  <div class="container mt-5">
+    <h1 id="category-title" class="mb-4">
+      {% if genre|lower == 'all' %}
+        All Movies
+      {% else %}
+        Movies in Category: {{ genre|capitalize }}
+      {% endif %}
+    </h1>
+
+    <div id="movie-grid" class="movie-content">
+      {% for movie in movies %}
+      <div class="card" style="width: 15rem;" title="{{ movie.movie_title }}" onclick="recommendcard(this)">
+        <div class="imghvr">
+          <img class="card-img-top" height="360" width="240" alt="{{ movie.movie_title }} - poster" src="{{ movie.poster_url or 'https://via.placeholder.com/240x360?text=No+Image' }}">
+          <figcaption class="fig">
+            <button class="card-btn btn btn-danger"> Click Me </button>
+          </figcaption>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ movie.movie_title|capitalize }}</h5>
+        </div>
+      </div>
+      {% else %}
+      <div class="w-100 text-center">No movies found for this category.</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- jQuery CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+    function recommendcard(e) {
+      const title = e.getAttribute('title');
+      alert('Clicked on ' + title);
+      // Or add redirection or ajax call here
+    }
+  </script>
+
+  <!-- Bootstrap 4 JS dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    crossorigin="anonymous"></script>
+</body>
+</html>
